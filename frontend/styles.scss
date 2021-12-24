@@ -57,7 +57,7 @@ body {
     color: $color-text-hint;
     padding: $widget-spacing;
     transition: $widget-transition;
-    border-radius: $widget-border-radius $widget-border-radius 0 0;
+    border-radius: $widget-border-radius;
     cursor: pointer;
 
     &-close {
@@ -75,6 +75,7 @@ body {
   }
 
   &-body {
+    display: none;
     padding: $widget-spacing;
     background-color: #fff;
     border-radius: 0 0 $widget-border-radius $widget-border-radius;
@@ -134,5 +135,13 @@ body {
         }
       }
     }
+  }
+
+  &--opened &-body {
+    display: block;
+  }
+
+  &--opened &-header {
+    border-radius: $widget-border-radius $widget-border-radius 0 0;
   }
 }
