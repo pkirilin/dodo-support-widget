@@ -1,8 +1,9 @@
 $color-primary: #e0e0e0;
 $color-primary-active: #bdbdbd;
 $color-shadow: rgba(0, 0, 0, 0.5);
-$color-text-widget-header: #212121;
-$color-text-hint: #bdbdbd;
+$color-text-hint: #9e9e9e;
+$color-text: #212121;
+$color-text-widget-header: $color-text;
 
 $widget-spacing: 1rem;
 $widget-transition: 0.5s;
@@ -18,6 +19,18 @@ $widget-transition: 0.5s;
   border: 1px solid black;
   width: 50%;
 
+  &-icon {
+    border: none;
+    background-color: transparent;
+    color: $color-text-hint;
+    transition: $widget-transition;
+    cursor: pointer;
+
+    &:hover {
+      color: $color-text;
+    }
+  }
+
   &-header {
     background-color: $color-primary;
     color: $color-text-widget-header;
@@ -25,7 +38,7 @@ $widget-transition: 0.5s;
     transition: $widget-transition;
     cursor: pointer;
 
-    i {
+    &-close {
       position: absolute;
       right: $widget-spacing;
     }
@@ -39,7 +52,7 @@ $widget-transition: 0.5s;
     position: relative;
     margin: $widget-spacing;
 
-    input {
+    &-input {
       width: 100%;
       padding: 0.5rem 2rem;
       outline: none;
@@ -50,20 +63,24 @@ $widget-transition: 0.5s;
         border-color: $color-primary-active;
         box-shadow: 0 0 0.5rem $color-shadow;
       }
+
+      &::placeholder {
+        color: $color-text-hint;
+      }
     }
 
-    .icon-search,
-    .icon-clear {
+    &-submit,
+    &-clear {
+      position: absolute;
       position: absolute;
       top: 0.5rem;
-      cursor: pointer;
     }
 
-    .icon-search {
+    &-submit {
       left: 0.5rem;
     }
 
-    .icon-clear {
+    &-clear {
       right: 0.5rem;
     }
   }
