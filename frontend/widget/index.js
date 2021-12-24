@@ -1,21 +1,20 @@
 export default function createWidget(id) {
-  let articles = ['Статья 1', 'Статья 2', 'Статья 3'];
-
   const root = document.getElementById(id);
   const widget = Widget();
   const widgetHeader = WidgetHeader(() => {
     widget.toggle();
   });
   const widgetBody = WidgetBody();
+  const widgetBodySearchResults = WidgetBodySearchResults();
   const widgetBodySearch = WidgetBodySearch(
     term => {
       console.log('submit:', term);
+      widgetBodySearchResults.refreshResults([]);
     },
     () => {
       console.log('clear');
     },
   );
-  const widgetBodySearchResults = WidgetBodySearchResults(articles);
 
   widgetBody.element.appendChild(widgetBodySearch.element);
   widgetBody.element.appendChild(widgetBodySearchResults.element);
@@ -115,25 +114,46 @@ function WidgetBodySearchIcon(type, iconClass, onClick) {
 }
 
 function WidgetBodySearchResults(items) {
+  let articles = ['Статья 1', 'Статья 2', 'Статья 3'];
+
   const widgetBodySearchResults = document.createElement('div');
   widgetBodySearchResults.className = 'widget-body-search-results';
-  widgetBodySearchResults.innerHTML =
-    '<div class="widget-text-h6 widget-body-search-results-header">Результаты поиска</div>';
+  refreshResults(articles);
 
-  const widgetBodySearchResultsList = document.createElement('ul');
-  widgetBodySearchResultsList.className = 'widget-body-search-results-list';
-  widgetBodySearchResultsList.innerHTML = items
-    .map(
-      i => `
+  function refreshResults(articles) {
+    widgetBodySearchResults.innerHTML = __refreshResults(articles);
+  }
+
+  function __refreshResults(articles) {
+    const resultsTitle =
+      '<div class="widget-text-h6 widget-body-search-results-header">Результаты поиска</div>';
+
+    if (articles.length === 0) {
+      return `
+        ${resultsTitle}
+        <div>Не найдено ни одной статьи</div>
+      `;
+    }
+
+    const articlesLinks = articles
+      .map(
+        i => `
         <li>
             <a href="#" target="_blank">${i}</a>
         </li>`,
-    )
-    .join('\n');
+      )
+      .join('\n');
 
-  widgetBodySearchResults.appendChild(widgetBodySearchResultsList);
+    return `
+        ${resultsTitle}
+        <ul class="widget-body-search-results-list">
+            ${articlesLinks}
+        </ul>
+    `;
+  }
 
   return {
     element: widgetBodySearchResults,
+    refreshResults,
   };
 }
