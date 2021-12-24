@@ -1,13 +1,20 @@
 export default function createWidget(id) {
+  let articles = ['Статья 1', 'Статья 2', 'Статья 3'];
+
   const root = document.getElementById(id);
   const widget = Widget();
   const widgetHeader = WidgetHeader(() => {
     widget.toggle();
   });
   const widgetBody = WidgetBody();
-  const widgetBodySearch = WidgetBodySearch();
+  const widgetBodySearch = WidgetBodySearch(
+    () => {},
+    () => {},
+  );
+  const widgetBodySearchResults = WidgetBodySearchResults(articles);
 
   widgetBody.element.appendChild(widgetBodySearch.element);
+  widgetBody.element.appendChild(widgetBodySearchResults.element);
 
   widget.element.appendChild(widgetHeader.element);
   widget.element.appendChild(widgetBody.element);
@@ -16,8 +23,9 @@ export default function createWidget(id) {
 }
 
 function Widget() {
-  const widget = document.createElement('div');
   let isOpen = false;
+
+  const widget = document.createElement('div');
   widget.className = 'widget';
 
   return {
@@ -52,14 +60,13 @@ function WidgetHeader(onClick) {
 function WidgetBody() {
   const widgetBody = document.createElement('div');
   widgetBody.className = 'widget-body';
-  widgetBody.innerText = 'fsfdfd';
 
   return {
     element: widgetBody,
   };
 }
 
-function WidgetBodySearch() {
+function WidgetBodySearch(onSubmit, onClear) {
   let searchTerm = '';
   const widgetBodySearch = document.createElement('div');
   widgetBodySearch.className = 'widget-body-search';
@@ -74,8 +81,8 @@ function WidgetBodySearch() {
     searchTerm = event.target.value;
   };
 
-  const widgetBodySearchSubmitIcon = WidgetBodySearchIcon('submit', 'bi bi-search', () => {});
-  const widgetBodySearchClearIcon = WidgetBodySearchIcon('clear', 'bi bi-x-lg', () => {});
+  const widgetBodySearchSubmitIcon = WidgetBodySearchIcon('submit', 'bi bi-search', onSubmit);
+  const widgetBodySearchClearIcon = WidgetBodySearchIcon('clear', 'bi bi-x-lg', onClear);
 
   widgetBodySearch.appendChild(widgetBodySearchInput);
   widgetBodySearch.appendChild(widgetBodySearchSubmitIcon.element);
@@ -94,5 +101,29 @@ function WidgetBodySearchIcon(type, iconClass, onClick) {
 
   return {
     element: iconBtn,
+  };
+}
+
+function WidgetBodySearchResults(items) {
+  const widgetBodySearchResults = document.createElement('div');
+  widgetBodySearchResults.className = 'widget-body-search-results';
+  widgetBodySearchResults.innerHTML =
+    '<div class="widget-text-h6 widget-body-search-results-header">Результаты поиска</div>';
+
+  const widgetBodySearchResultsList = document.createElement('ul');
+  widgetBodySearchResultsList.className = 'widget-body-search-results-list';
+  widgetBodySearchResultsList.innerHTML = items
+    .map(
+      i => `
+        <li>
+            <a href="#" target="_blank">${i}</a>
+        </li>`,
+    )
+    .join('\n');
+
+  widgetBodySearchResults.appendChild(widgetBodySearchResultsList);
+
+  return {
+    element: widgetBodySearchResults,
   };
 }
