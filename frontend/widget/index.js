@@ -8,11 +8,14 @@ export default function createWidget(id) {
   const widgetBodySearchResults = WidgetBodySearchResults();
   const widgetBodySearch = WidgetBodySearch(
     term => {
-      console.log('submit:', term);
-      widgetBodySearchResults.refreshResults([]);
+      fetch(`http://localhost:3000/search?term=${encodeURIComponent(term)}`)
+        .then(response => response.json())
+        .then(json => {
+          widgetBodySearchResults.refreshResults(json);
+        });
     },
     () => {
-      console.log('clear');
+      widgetBodySearchResults.refreshResults([]);
     },
   );
 
@@ -113,12 +116,10 @@ function WidgetBodySearchIcon(type, iconClass, onClick) {
   };
 }
 
-function WidgetBodySearchResults(items) {
-  let articles = ['Статья 1', 'Статья 2', 'Статья 3'];
-
+function WidgetBodySearchResults() {
   const widgetBodySearchResults = document.createElement('div');
   widgetBodySearchResults.className = 'widget-body-search-results';
-  refreshResults(articles);
+  refreshResults([{ title: 'Статья', link: '#' }]);
 
   function refreshResults(articles) {
     widgetBodySearchResults.innerHTML = __refreshResults(articles);
@@ -139,7 +140,7 @@ function WidgetBodySearchResults(items) {
       .map(
         i => `
         <li>
-            <a href="#" target="_blank">${i}</a>
+            <a href="${i.link}" target="_blank">${i.title}</a>
         </li>`,
       )
       .join('\n');
