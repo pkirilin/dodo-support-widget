@@ -1,3 +1,6 @@
+$color-primary: #ff6f00;
+$color-primary-active: #ff8f00;
+
 * {
   margin: 0;
   padding: 0;
@@ -5,9 +8,24 @@
 }
 
 .widget {
+  position: relative;
   border: 1px solid black;
 
   &-header {
+    background-color: $color-primary;
+    color: white;
+    padding: 1rem;
+    transition: 0.5s;
+    cursor: pointer;
+
+    i {
+      position: absolute;
+      right: 1rem;
+    }
+
+    &:hover {
+      background-color: $color-primary-active;
+    }
   }
 
   &-search {
