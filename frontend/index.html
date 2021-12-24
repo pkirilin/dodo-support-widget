@@ -7,6 +7,30 @@
     <title><%= htmlWebpackPlugin.options.title %></title>
   </head>
   <body>
-    hello world123
+    <header>
+      <h1>Some title</h1>
+    </header>
+    <main>
+      <div>Some content</div>
+      <div class="widget">
+        <div class="widget-header">
+          Support
+          <i class="bi bi-dash-lg"></i>
+        </div>
+        <div class="widget-search">
+          <input type="text" placeholder="Search" />
+          <i class="icon-search bi bi-search"></i>
+          <i class="icon-clear bi bi-x-lg"></i>
+        </div>
+        <div class="widget-search-results">
+          <div class="widget-search-results-header">Search results</div>
+          <ul>
+            <li>Article 1</li>
+            <li>Article 2</li>
+            <li>Article 3</li>
+          </ul>
+        </div>
+      </div>
+    </main>
   </body>
 </html>

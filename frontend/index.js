@@ -1,3 +1,2 @@
+import 'bootstrap-icons/font/bootstrap-icons.css';
 import './styles.scss';
-
-console.log('hello');
