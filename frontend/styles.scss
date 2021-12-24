@@ -1,6 +1,8 @@
 $color-primary: #ff6f00;
 $color-primary-active: #ff8f00;
 
+$widget-spacing: 1rem;
+
 * {
   margin: 0;
   padding: 0;
@@ -10,17 +12,18 @@ $color-primary-active: #ff8f00;
 .widget {
   position: relative;
   border: 1px solid black;
+  width: 50%;
 
   &-header {
     background-color: $color-primary;
     color: white;
-    padding: 1rem;
+    padding: $widget-spacing;
     transition: 0.5s;
     cursor: pointer;
 
     i {
       position: absolute;
-      right: 1rem;
+      right: $widget-spacing;
     }
 
     &:hover {
@@ -29,9 +32,33 @@ $color-primary-active: #ff8f00;
   }
 
   &-search {
+    position: relative;
+    margin: $widget-spacing;
+
+    input {
+      width: 100%;
+      padding: 0.5rem 2rem;
+    }
+
+    .icon-search,
+    .icon-clear {
+      position: absolute;
+      top: 0.5rem;
+      cursor: pointer;
+    }
+
+    .icon-search {
+      left: 0.5rem;
+    }
+
+    .icon-clear {
+      right: 0.5rem;
+    }
   }
 
   &-search-results {
+    padding: 0 $widget-spacing $widget-spacing $widget-spacing;
+
     &-header {
     }
   }
