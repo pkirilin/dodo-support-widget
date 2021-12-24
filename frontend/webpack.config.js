@@ -26,7 +26,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'Development',
+      title: 'Demo',
       template: 'index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
