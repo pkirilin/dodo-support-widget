@@ -1,5 +1,7 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const axios = require('axios');
 
 const PORT = 3000;
 const app = express();
@@ -10,19 +12,27 @@ app.get('/', (req, res) => {
     res.json('hello world from server');
 });
 
-app.get('/search', (req, res) => {
+app.get('/search', async (req, res) => {
     const term = req.query['term'];
 
-    res.json([
+    const response = await axios.get(
+        `https://stage.dodopizza.info/api/search/searchAllWithApiKey/${term}`,
         {
-            title: 'Статья 1',
-            link: '#',
+            headers: {
+                Key: process.env.API_KEY,
+            },
         },
-        {
-            title: 'Статья 2',
-            link: '#',
-        },
-    ]);
+    );
+
+    const data = response.data;
+
+    res.json({
+        count: data.count,
+        articles: data.results.map(doc => ({
+            title: doc['ru__Title'],
+            link: `https://dodopizza.info/support/articles/${doc.Id}`,
+        })),
+    });
 });
 
 app.listen(PORT, () => {
