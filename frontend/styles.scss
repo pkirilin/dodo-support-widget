@@ -33,7 +33,7 @@ $widget-transition: 0.5s;
 
   &-header {
     background-color: $color-primary;
-    color: $color-text-widget-header;
+    color: $color-text-hint;
     padding: $widget-spacing;
     transition: $widget-transition;
     cursor: pointer;
@@ -46,6 +46,11 @@ $widget-transition: 0.5s;
 
     &:hover {
       background-color: $color-primary-active;
+      color: $color-text-widget-header;
+    }
+
+    &:hover &-close {
+      color: $color-text-widget-header;
     }
   }
 
