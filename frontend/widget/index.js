@@ -8,10 +8,14 @@ export default function createWidget(id) {
   const widgetBodySearchResults = WidgetBodySearchResults();
   const widgetBodySearch = WidgetBodySearch(
     term => {
-      fetch(`http://localhost:3000/search?term=${encodeURIComponent(term)}`)
+      fetch(
+        `http://localhost:3000/search?term=${encodeURIComponent(term)}&filters=${encodeURIComponent(
+          'support-article',
+        )}`,
+      )
         .then(response => response.json())
         .then(json => {
-          widgetBodySearchResults.refreshResults(json);
+          widgetBodySearchResults.refreshResults(json.articles);
         });
     },
     () => {

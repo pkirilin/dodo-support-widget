@@ -3,6 +3,9 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 
+// require('https').globalAgent.options.ca = require('ssl-root-cas').create();
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
+
 const PORT = 3000;
 const app = express();
 
@@ -13,26 +16,41 @@ app.get('/', (req, res) => {
 });
 
 app.get('/search', async (req, res) => {
-    const term = req.query['term'];
+    try {
+        const term = req.query['term'];
+        const filters = req.query['filters'];
 
-    const response = await axios.get(
-        `https://stage.dodopizza.info/api/search/searchAllWithApiKey/${term}`,
-        {
-            headers: {
-                Key: process.env.API_KEY,
+        // console.log(term);
+        // console.log(filters);
+
+        const response = await axios.get(
+            `https://localhost:5000/api/search/searchAllWithApiKey/${encodeURIComponent(
+                term,
+            )}?filters=${filters}`,
+            {
+                headers: {
+                    Key: process.env.API_KEY,
+                },
             },
-        },
-    );
+        );
 
-    const data = response.data;
+        const count = response.data.count;
+        const results = response.data.results;
 
-    res.json({
-        count: data.count,
-        articles: data.results.map(doc => ({
-            title: doc['ru__Title'],
-            link: `https://dodopizza.info/support/articles/${doc.Id}`,
-        })),
-    });
+        console.log(response.data);
+
+        res.json({
+            count,
+            articles: results
+                .map(res => res.document)
+                .map(doc => ({
+                    title: doc['ru__Title'],
+                    link: `https://stage.dodopizza.info/support/articles/${doc.Id}`,
+                })),
+        });
+    } catch (error) {
+        res.send(error);
+    }
 });
 
 app.listen(PORT, () => {
