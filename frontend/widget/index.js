@@ -123,7 +123,7 @@ function WidgetBodySearchIcon(type, iconClass, onClick) {
 function WidgetBodySearchResults() {
   const widgetBodySearchResults = document.createElement('div');
   widgetBodySearchResults.className = 'widget-body-search-results';
-  refreshResults([{ title: 'Статья', link: '#' }]);
+  refreshResults([]);
 
   function refreshResults(articles) {
     widgetBodySearchResults.innerHTML = __refreshResults(articles);

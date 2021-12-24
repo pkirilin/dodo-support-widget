@@ -122,6 +122,9 @@ body {
     }
 
     &-search-results {
+      height: 400px;
+      overflow: scroll;
+
       & > :not(:first-child) {
         margin-top: $widget-spacing;
       }
