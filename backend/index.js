@@ -3,7 +3,6 @@ const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
 
-// require('https').globalAgent.options.ca = require('ssl-root-cas').create();
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
 const PORT = 3000;
@@ -19,9 +18,6 @@ app.get('/search', async (req, res) => {
     try {
         const term = req.query['term'];
         const filters = req.query['filters'];
-
-        // console.log(term);
-        // console.log(filters);
 
         const response = await axios.get(
             `https://localhost:5000/api/search/searchAllWithApiKey/${encodeURIComponent(
@@ -39,6 +35,7 @@ app.get('/search', async (req, res) => {
 
         console.log(response.data);
 
+        res.set({ 'content-type': 'application/json; charset=utf-8' });
         res.json({
             count,
             articles: results
