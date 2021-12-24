@@ -41,6 +41,7 @@ $widget-transition: 0.5s;
     &-close {
       position: absolute;
       right: $widget-spacing;
+      -webkit-text-stroke: 2px;
     }
 
     &:hover {
