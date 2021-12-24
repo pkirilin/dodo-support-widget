@@ -5,6 +5,9 @@ export default function createWidget(id) {
     widget.toggle();
   });
   const widgetBody = WidgetBody();
+  const widgetBodySearch = WidgetBodySearch();
+
+  widgetBody.element.appendChild(widgetBodySearch.element);
 
   widget.element.appendChild(widgetHeader.element);
   widget.element.appendChild(widgetBody.element);
@@ -35,13 +38,9 @@ function WidgetHeader(onClick) {
   closeBtn.className = 'widget-icon widget-header-close';
   closeBtn.innerHTML = '<i class="bi bi-dash-lg"></i>';
 
-  closeBtn.onclick = () => {
-    onClick();
-  };
+  closeBtn.onclick = onClick;
 
-  header.onclick = () => {
-    onClick();
-  };
+  header.onclick = onClick;
 
   header.appendChild(closeBtn);
 
@@ -57,5 +56,43 @@ function WidgetBody() {
 
   return {
     element: widgetBody,
+  };
+}
+
+function WidgetBodySearch() {
+  let searchTerm = '';
+  const widgetBodySearch = document.createElement('div');
+  widgetBodySearch.className = 'widget-body-search';
+
+  const widgetBodySearchInput = document.createElement('input');
+  widgetBodySearchInput.className = 'widget-body-search-input';
+  widgetBodySearchInput.type = 'text';
+  widgetBodySearchInput.placeholder = 'Введите название статьи';
+  widgetBodySearchInput.value = searchTerm;
+
+  widgetBodySearchInput.onchange = event => {
+    searchTerm = event.target.value;
+  };
+
+  const widgetBodySearchSubmitIcon = WidgetBodySearchIcon('submit', 'bi bi-search', () => {});
+  const widgetBodySearchClearIcon = WidgetBodySearchIcon('clear', 'bi bi-x-lg', () => {});
+
+  widgetBodySearch.appendChild(widgetBodySearchInput);
+  widgetBodySearch.appendChild(widgetBodySearchSubmitIcon.element);
+  widgetBodySearch.appendChild(widgetBodySearchClearIcon.element);
+
+  return {
+    element: widgetBodySearch,
+  };
+}
+
+function WidgetBodySearchIcon(type, iconClass, onClick) {
+  const iconBtn = document.createElement('button');
+  iconBtn.className = `widget-icon widget-body-search-${type}`;
+  iconBtn.innerHTML = `<i class="${iconClass}"></i>`;
+  iconBtn.onclick = onClick;
+
+  return {
+    element: iconBtn,
   };
 }
