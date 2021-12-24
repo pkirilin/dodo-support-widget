@@ -17,7 +17,14 @@ $widget-transition: 0.5s;
   font-family: 'Roboto', sans-serif;
 }
 
+body {
+  padding: 1rem;
+}
+
 .widget {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
   border: 1px solid black;
   width: 50%;
 
@@ -65,7 +72,8 @@ $widget-transition: 0.5s;
   }
 
   &-body {
-    margin: $widget-spacing;
+    padding: $widget-spacing;
+    background-color: #fff;
 
     & > :not(:first-child) {
       margin-top: $widget-spacing;
