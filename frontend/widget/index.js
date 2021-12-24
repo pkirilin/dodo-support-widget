@@ -8,8 +8,12 @@ export default function createWidget(id) {
   });
   const widgetBody = WidgetBody();
   const widgetBodySearch = WidgetBodySearch(
-    () => {},
-    () => {},
+    term => {
+      console.log('submit:', term);
+    },
+    () => {
+      console.log('clear');
+    },
   );
   const widgetBodySearchResults = WidgetBodySearchResults(articles);
 
@@ -81,8 +85,14 @@ function WidgetBodySearch(onSubmit, onClear) {
     searchTerm = event.target.value;
   };
 
-  const widgetBodySearchSubmitIcon = WidgetBodySearchIcon('submit', 'bi bi-search', onSubmit);
-  const widgetBodySearchClearIcon = WidgetBodySearchIcon('clear', 'bi bi-x-lg', onClear);
+  const widgetBodySearchSubmitIcon = WidgetBodySearchIcon('submit', 'bi bi-search', () => {
+    onSubmit(searchTerm);
+  });
+  const widgetBodySearchClearIcon = WidgetBodySearchIcon('clear', 'bi bi-x-lg', () => {
+    searchTerm = '';
+    widgetBodySearchInput.value = '';
+    onClear();
+  });
 
   widgetBodySearch.appendChild(widgetBodySearchInput);
   widgetBodySearch.appendChild(widgetBodySearchSubmitIcon.element);
